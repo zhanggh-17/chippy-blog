@@ -80,6 +80,7 @@
             ca.author,
             ct.`name` typeName,
             ca.count,
+            ca.type,
             ca.crt_time,
             ca.upd_time,
             ca.crt_user,

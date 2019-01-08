@@ -2,7 +2,7 @@
 <configuration>
 
 	<!-- 日志存放的路径 ,默认为tomcat下面的logs -->
-	<property name="USER_HOME" value="/var/log/loser/#environment#" />
+	<property name="USER_HOME" value="/var/log/blog/#environment#" />
 	
 	<!-- 输出到文件 -->
 	<appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
