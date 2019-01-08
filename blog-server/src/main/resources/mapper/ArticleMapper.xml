@@ -69,4 +69,26 @@
         ORDER BY `count` DESC
         LIMIT #{num}
     </select>
+
+    <select id="single" resultType="top.chippy.blog.entity.Article">
+        SELECT
+            ca.id,
+            ca.title,
+            ca.content,
+            ca.half_content,
+            ca.cover,
+            ca.author,
+            ct.`name` typeName,
+            ca.count,
+            ca.crt_time,
+            ca.upd_time,
+            ca.crt_user,
+            ca.upd_user,
+            ca.del_flag
+        FROM
+            chippy_article AS ca
+        INNER JOIN chippy_tag AS ct ON ca.type = ct.id
+        WHERE
+            ca.id = #{id}
+    </select>
 </mapper>

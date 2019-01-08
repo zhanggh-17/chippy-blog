@@ -21,4 +21,6 @@ public interface ArticleMapper extends Mapper<Article> {
     List<Article> hots(@Param("num") int num);
 
     List<Article> relation(@Param("type") String type, @Param("num") int num);
+
+    Article single(@Param("id") String id);
 }

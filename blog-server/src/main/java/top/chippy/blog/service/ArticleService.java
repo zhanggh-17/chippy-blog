@@ -46,6 +46,6 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
     }
 
     public Article single(String id) {
-        return mapper.selectByPrimaryKey(id);
+        return mapper.single(id);
     }
 }

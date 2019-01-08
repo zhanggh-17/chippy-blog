@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @Date: 2019/1/4 14:09
@@ -31,5 +32,11 @@ public class Article {
     private String crtUser;
     private String updUser;
     private String delFlag;
+
+    /**
+     * @Description 注入类型名称
+     */
+    @Transient
+    private String typeName;
 
 }
