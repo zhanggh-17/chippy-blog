@@ -2,12 +2,11 @@ package top.chippy.blog.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.loser.common.base.controller.BaseController;
+import com.loser.common.util.BeanPropertiesUtil;
 import com.loser.common.util.Stringer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.chippy.blog.entity.Article;
 import top.chippy.blog.service.ArticleService;
 
@@ -21,6 +20,7 @@ import java.util.Map;
  * @Author: chippy
  * @Description:
  */
+@Slf4j
 @RestController
 @RequestMapping("/article")
 public class ArticleController extends BaseController {
@@ -74,5 +74,19 @@ public class ArticleController extends BaseController {
         }
         resultMap.put("single", article);
         return success(resultMap);
+    }
+
+    @PostMapping("/save")
+    public Object save(Article article) throws IllegalAccessException {
+        String[] fields = new String[]{"title", "content", "halfContent", "cover", "author", "type"};
+        BeanPropertiesUtil.fieldsNotNullOrEmpty(article, fields);
+
+        int flag = 0;
+        try {
+            flag = articleService.save(article);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return success(flag);
     }
 }

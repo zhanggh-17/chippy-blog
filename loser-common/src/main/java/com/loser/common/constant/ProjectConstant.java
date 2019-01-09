@@ -7,6 +7,6 @@ package com.loser.common.constant;
  */
 public class ProjectConstant {
     //启用  禁用标识
-    public static final Integer SYSTEM_ENABLE = 1;
-    public static final Integer SYSTEM_DISABLE = 2;
+    public static final int SYSTEM_ENABLE = 1;
+    public static final int SYSTEM_DISABLE = 0;
 }

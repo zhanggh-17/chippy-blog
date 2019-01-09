@@ -1,5 +1,7 @@
 package com.loser.common.util;
 
+import com.loser.common.constant.ProjectConstant;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -14,7 +16,7 @@ import java.util.Date;
  */
 public class EntityUtils {
 
-    private static final String DEFAULT_PACKAGE = "com.piglet.shop.context.ShopContext";
+    private static final String DEFAULT_PACKAGE = "top.chippy.blog.context.BlogContext";
 
     /**
      * 快速将bean的crtName、crtTime、updName、updTime、delFlag附上相关值
@@ -34,15 +36,15 @@ public class EntityUtils {
      * @author K2
      */
     public static <T> void setCreateInfo(T entity) {
-        String[] fields = {"crtName", "crtTime", "id", "delFlag"};
+        String[] fields = {"crtUser", "crtTime", "id", "delFlag"};
         Field field = ReflectionUtils.getAccessibleField(entity, "crtTime");
         String id = UUIDUtils.generateUuid();
         String username = getUsername();
         Object[] value = null;
         if (field != null && field.getType().equals(Date.class)) {
-            value = new Object[]{username, DateUtil.getTime(), id, Boolean.TRUE};
+            value = new Object[]{username, DateUtil.getTime(), id, ProjectConstant.SYSTEM_ENABLE};
         } else {
-            value = new Object[]{username, DateUtil.getTime(), id, Boolean.TRUE};
+            value = new Object[]{username, DateUtil.getTime(), id, ProjectConstant.SYSTEM_ENABLE};
         }
         setDefaultValues(entity, fields, value);
     }
@@ -54,7 +56,7 @@ public class EntityUtils {
      * @author K2
      */
     public static <T> void setUpdatedInfo(T entity) {
-        String[] fields = {"updName", "updTime"};
+        String[] fields = {"updUser", "updTime"};
         Field field = ReflectionUtils.getAccessibleField(entity, "updTime");
         String username = getUsername();
         Object[] value = null;
@@ -82,6 +84,11 @@ public class EntityUtils {
         }
     }
 
+    /**
+     * @Description 反射获取用户名
+     * @Author chippy
+     * @Datetime 2019/1/9 17:01
+     */
     public static String getUsername() {
         String username = "";
         try {

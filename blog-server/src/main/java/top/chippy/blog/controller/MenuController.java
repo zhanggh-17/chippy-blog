@@ -26,9 +26,7 @@ public class MenuController extends BaseController {
 
     @GetMapping("/list")
     public Object list() {
-        Example example = new Example(Menu.class);
-        example.orderBy("sort").asc();
-        List<Menu> menus = menuService.selectByExample(example);
+        List<Menu> menus = menuService.list();
         return success(menus);
     }
 }

@@ -31,7 +31,7 @@ public class Article {
     private String updTime;
     private String crtUser;
     private String updUser;
-    private String delFlag;
+    private int delFlag;
 
     /**
      * @Description 注入类型名称

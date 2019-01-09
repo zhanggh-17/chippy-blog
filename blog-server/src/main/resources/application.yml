@@ -36,7 +36,7 @@ redis:
     maxWait: 1000
   port: 6379
   timeout: 2000
-  sysName: small-shop
+  sysName: chippy-blog
   enable: true
   database: 0
 

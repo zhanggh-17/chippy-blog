@@ -44,6 +44,7 @@
             OR (half_content LIKE CONCAT('%','${search}','%'))
             OR (author LIKE CONCAT('%','${search}','%'))
         </if>
+        ORDER BY crt_time DESC
     </select>
 
     <select id="hots" resultType="top.chippy.blog.entity.Article">

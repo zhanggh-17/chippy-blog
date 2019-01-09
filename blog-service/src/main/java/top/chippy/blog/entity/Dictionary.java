@@ -75,6 +75,6 @@ public class Dictionary {
     /**
      * 是否删除
      */
-    private Boolean delFlag;
+    private int delFlag;
 
 }

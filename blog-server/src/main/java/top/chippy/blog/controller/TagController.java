@@ -3,6 +3,7 @@ package top.chippy.blog.controller;
 import com.loser.common.base.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.chippy.blog.entity.Tag;
@@ -30,8 +31,19 @@ public class TagController extends BaseController {
      */
     @GetMapping("/list")
     public Object list() {
-        List<Tag> tagList = tagService.selectListAll();
+        List<Tag> tagList = tagService.list();
         return success(tagList);
+    }
+
+    /**
+     * @Description 获取某个信息
+     * @Author chippy
+     * @Datetime 2019/1/9 16:01
+     */
+    @GetMapping("/{id}")
+    public Object single(@PathVariable("id") String id) {
+        Tag tag = tagService.single(id);
+        return success(tag);
     }
 
 }
