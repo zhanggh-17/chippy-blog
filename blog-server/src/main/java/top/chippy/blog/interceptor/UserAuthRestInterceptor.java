@@ -3,18 +3,17 @@ package top.chippy.blog.interceptor;
 import com.loser.common.util.Stringer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.config.KeyConfiguration;
 import top.chippy.blog.context.BlogContext;
-import top.chippy.blog.exception.UserTokenIsEmptyException;
 import top.chippy.blog.exception.UserTokenNotEmptyException;
 import top.chippy.blog.jwt.JwtInfo;
 import top.chippy.blog.jwt.JwtTokenUtil;
-import top.chippy.blog.service.AccessLimitService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Description check user token
@@ -28,19 +27,37 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private KeyConfiguration keyConfiguration;
 
-    @Autowired
-    private AccessLimitService accessLimitService;
+    // @Autowired
+    // private AccessLimitService accessLimitService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         log.info("check user token...");
 
-        if (!accessLimitService.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
-            throw new UserTokenIsEmptyException("服务端令牌为空");
+        // 先这么处理
+        if (!(handler instanceof HandlerMethod)) {
+            return super.preHandle(request, response, handler);
+        }
+
+        //if (!accessLimitService.tryAcquire(500, TimeUnit.MILLISECONDS)) {
+        //  throw new UserTokenIsEmptyException("服务端令牌为空");
+        //}
+
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        // 先从类上拿
+        IgnoreAuth annotation = handlerMethod.getBeanType().getAnnotation(IgnoreAuth.class);
+        // 如果没有从方法上拿
+        if (annotation == null) {
+            annotation = handlerMethod.getMethodAnnotation(IgnoreAuth.class);
+        }
+        // 如果不等于空放行
+        if (annotation != null) {
+            return super.preHandle(request, response, handler);
         }
 
         String token = request.getHeader(keyConfiguration.getTokenHeader());
+        log.info("============== " + token + "==============");
         if (Stringer.isNullOrEmpty(token)) {
             throw new UserTokenNotEmptyException("用户令牌不能为空");
         }

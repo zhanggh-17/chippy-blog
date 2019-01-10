@@ -39,7 +39,7 @@ public class EntityUtils {
         String[] fields = {"crtUser", "crtTime", "id", "delFlag"};
         Field field = ReflectionUtils.getAccessibleField(entity, "crtTime");
         String id = UUIDUtils.generateUuid();
-        String username = getUsername();
+        String username = getEmail();
         Object[] value = null;
         if (field != null && field.getType().equals(Date.class)) {
             value = new Object[]{username, DateUtil.getTime(), id, ProjectConstant.SYSTEM_ENABLE};
@@ -58,7 +58,7 @@ public class EntityUtils {
     public static <T> void setUpdatedInfo(T entity) {
         String[] fields = {"updUser", "updTime"};
         Field field = ReflectionUtils.getAccessibleField(entity, "updTime");
-        String username = getUsername();
+        String username = getEmail();
         Object[] value = null;
         if (field != null && field.getType().equals(Date.class)) {
             value = new Object[]{username, DateUtil.getTime()};
@@ -89,17 +89,17 @@ public class EntityUtils {
      * @Author chippy
      * @Datetime 2019/1/9 17:01
      */
-    public static String getUsername() {
-        String username = "";
+    public static String getEmail() {
+        String email = "";
         try {
             Class<?> cls = Class.forName(DEFAULT_PACKAGE);
-            Method getUsername = cls.getDeclaredMethod("getUsername");
-            if (!Stringer.isNullOrEmpty(getUsername)) {
-                username = String.valueOf(getUsername.invoke(cls));
+            Method getEmail = cls.getDeclaredMethod("getEmail");
+            if (!Stringer.isNullOrEmpty(getEmail)) {
+                email = String.valueOf(getEmail.invoke(cls));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return username;
+        return email;
     }
 }

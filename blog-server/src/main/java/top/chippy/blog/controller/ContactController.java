@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.entity.Contact;
 import top.chippy.blog.service.ContactService;
 
@@ -30,6 +31,7 @@ public class ContactController extends BaseController {
      * @param [contact]
      * @return
      */
+    @IgnoreAuth
     @PostMapping("/message")
     public Object message(Contact contact) {
         int flag = 0;

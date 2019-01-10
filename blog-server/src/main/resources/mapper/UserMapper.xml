@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.chippy.blog.mapper.UserMapper">
+
+    <select id="validate" resultType="top.chippy.blog.entity.User">
+        SELECT
+          id,
+          `name`,
+          email,
+          password
+        FROM
+          chippy_user
+        WHERE
+          del_flag = 1
+        AND email = #{email}
+    </select>
+
+</mapper>

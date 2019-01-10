@@ -7,6 +7,7 @@ import com.loser.common.util.Stringer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.entity.Article;
 import top.chippy.blog.service.ArticleService;
 
@@ -32,6 +33,7 @@ public class ArticleController extends BaseController {
      * @Author chippy
      * @Datetime 2019/1/7 14:13
      */
+    @IgnoreAuth
     @GetMapping("/list")
     public Object list(String search, Integer limit, Integer pageNum) {
         PageInfo<Article> list = articleService.list(search, limit, pageNum);
@@ -43,6 +45,7 @@ public class ArticleController extends BaseController {
      * @Author chippy
      * @Datetime 2019/1/7 14:13
      */
+    @IgnoreAuth
     @GetMapping("/news")
     public Object news() {
         List<Article> list = articleService.news();
@@ -54,12 +57,14 @@ public class ArticleController extends BaseController {
      * @Author chippy
      * @Datetime 2019/1/7 15:20
      */
+    @IgnoreAuth
     @GetMapping("/hots")
     public Object hots() {
         List<Article> list = articleService.hots();
         return success(list);
     }
 
+    @IgnoreAuth
     @GetMapping("/single/{id}")
     public Object single(@PathVariable("id") String id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();

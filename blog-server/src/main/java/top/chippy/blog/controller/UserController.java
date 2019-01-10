@@ -6,10 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.constant.CommonConstants;
 import top.chippy.blog.entity.User;
 import top.chippy.blog.exception.UserNameNotExistsException;
 import top.chippy.blog.exception.UserPasswordErrorException;
+import top.chippy.blog.jwt.JwtInfo;
+import top.chippy.blog.jwt.JwtTokenUtil;
 import top.chippy.blog.service.UserService;
 
 /**
@@ -26,12 +29,16 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     /*
      * @Description 注册
      * @author chippy
      * @date 2019/1/9 21:44
      * @return
      */
+    @IgnoreAuth
     @PostMapping("/register")
     public Object register(User user) throws IllegalAccessException {
         BeanPropertiesUtil.fieldsNotNullOrEmpty(user, new String[]{"name", "email", "password"});
@@ -55,7 +62,8 @@ public class UserController extends BaseController {
      * @date 2019/1/9 21:44
      * @return
      */
-    @PostMapping("/login")
+    @IgnoreAuth
+    @PostMapping(value = "/login")
     public Object login(User user) throws IllegalAccessException {
         BeanPropertiesUtil.fieldsNotNullOrEmpty(user, new String[]{"email", "password"});
         String token = null;
@@ -74,9 +82,23 @@ public class UserController extends BaseController {
         return success(token);
     }
 
+    @IgnoreAuth
     @GetMapping("/exists/{email}")
     public Object exists(@PathVariable("email") String email) {
         int flag = userService.exists(email);
         return success(flag);
+    }
+
+    @GetMapping("/userinfo")
+    public Object userInfo(String token) {
+        JwtInfo jwtInfo = null; User user = null;
+        try {
+            jwtInfo = jwtTokenUtil.getInfoFromToken(token);
+            user = userService.userInfo(jwtInfo.getUserId());
+            return success(user);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return error(e.getMessage());
+        }
     }
 }

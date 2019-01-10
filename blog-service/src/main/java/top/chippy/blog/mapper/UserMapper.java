@@ -16,4 +16,7 @@ public interface UserMapper extends Mapper<User> {
 
     @Select("SELECT COUNT(1) FROM chippy_user WHERE del_flag = 1 AND email = #{email}")
     int exists(@Param("email") String email);
+
+    @Select("SELECT id, `name`, email FROM chippy_user WHERE del_flag = 1 AND id = #{userId}")
+    User userInfo(@Param("userId") String userId);
 }

@@ -19,8 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(crossDomainInterceptor()).addPathPatterns("/**");
-        registry.addInterceptor(userAuthRestInterceptor()).addPathPatterns("/**").
-                excludePathPatterns("/user/**");
+        registry.addInterceptor(userAuthRestInterceptor()).addPathPatterns("/**");
     }
 
     @Bean

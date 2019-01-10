@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.entity.Tag;
 import top.chippy.blog.service.TagService;
 
@@ -29,6 +30,7 @@ public class TagController extends BaseController {
      * @Author chippy
      * @Datetime 2019/1/7 15:29
      */
+    @IgnoreAuth
     @GetMapping("/list")
     public Object list() {
         List<Tag> tagList = tagService.list();

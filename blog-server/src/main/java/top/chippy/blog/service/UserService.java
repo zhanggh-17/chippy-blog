@@ -1,9 +1,11 @@
 package top.chippy.blog.service;
 
+import com.ace.cache.annotation.Cache;
 import com.loser.common.base.service.BaseMysqlService;
 import com.loser.common.util.Stringer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import top.chippy.blog.constant.CommonConstants;
@@ -47,5 +49,10 @@ public class UserService extends BaseMysqlService<UserMapper, User> {
 
     public int exists(String email) {
         return mapper.exists(email);
+    }
+
+    @Cache(key = "userinfo:{1}")
+    public User userInfo(String userId) throws Exception {
+        return mapper.userInfo(userId);
     }
 }
