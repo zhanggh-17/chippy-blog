@@ -24,7 +24,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/article")
 public class ArticleController extends BaseController {
-
     @Autowired
     private ArticleService articleService;
 
@@ -85,6 +84,7 @@ public class ArticleController extends BaseController {
         try {
             flag = articleService.save(article);
         } catch (Exception e) {
+            log.error("添加文章失败");
             log.error(e.getMessage());
         }
         return success(flag);

@@ -19,8 +19,8 @@ public class BlogContext {
         set(CommonConstants.CONTEXT_KEY_USER_ID, userId);
     }
 
-    public static void setUsername(String username) {
-        set(CommonConstants.CONTEXT_KEY_USERNAME, username);
+    public static void setEmail(String email) {
+        set(CommonConstants.CONTEXT_KEY_EMAIL, email);
     }
 
     public static void setName(String name) {
@@ -36,12 +36,12 @@ public class BlogContext {
         return returnObjectValue(value);
     }
 
-    public static String getUsername() {
-        Object value = get(CommonConstants.CONTEXT_KEY_USERNAME);
+    public static String getEmail() {
+        Object value = get(CommonConstants.CONTEXT_KEY_EMAIL);
         return returnObjectValue(value);
     }
 
-    public static String getName() {
+    public static String getUserName() {
         Object value = get(CommonConstants.CONTEXT_KEY_USER_NAME);
         return Stringer.getObjectValue(value);
     }

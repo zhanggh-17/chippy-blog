@@ -94,14 +94,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!--
 
-                <dependency>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-crypto</artifactId>
-                    <version>5.0.8.RELEASE</version>
-                </dependency>
-        -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>5.0.8.RELEASE</version>
+        </dependency>
 
         <!-- 通用mapper -->
         <dependency>
