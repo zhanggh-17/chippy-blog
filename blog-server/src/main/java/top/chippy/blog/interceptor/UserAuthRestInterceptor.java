@@ -57,7 +57,6 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
         }
 
         String token = request.getHeader(keyConfiguration.getTokenHeader());
-        log.info("============== " + token + "==============");
         if (Stringer.isNullOrEmpty(token)) {
             throw new UserTokenNotEmptyException("用户令牌不能为空");
         }

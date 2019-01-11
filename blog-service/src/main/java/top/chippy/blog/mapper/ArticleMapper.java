@@ -1,6 +1,7 @@
 package top.chippy.blog.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 import top.chippy.blog.entity.Article;
 
@@ -23,4 +24,7 @@ public interface ArticleMapper extends Mapper<Article> {
     List<Article> relation(@Param("type") String type, @Param("num") int num);
 
     Article single(@Param("id") String id);
+
+    @Update("UPDATE chippy_article SET `count`= `count` + 1 WHERE id = #{id}")
+    void updateArticleReading(@Param("id") String id);
 }

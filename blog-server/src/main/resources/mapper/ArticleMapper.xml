@@ -76,17 +76,17 @@
             ca.id,
             ca.title,
             ca.content,
-            ca.half_content,
+            ca.half_content AS halfContent,
             ca.cover,
             ca.author,
             ct.`name` typeName,
             ca.count,
             ca.type,
-            ca.crt_time,
-            ca.upd_time,
-            ca.crt_user,
-            ca.upd_user,
-            ca.del_flag
+            ca.crt_time AS crtTime,
+            ca.upd_time AS updTime,
+            ca.crt_user AS crtUser,
+            ca.upd_user AS updUser,
+            ca.del_flag AS delFlag
         FROM
             chippy_article AS ca
         INNER JOIN chippy_tag AS ct ON ca.type = ct.id

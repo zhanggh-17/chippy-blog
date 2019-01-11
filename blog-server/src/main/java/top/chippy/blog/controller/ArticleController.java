@@ -77,6 +77,9 @@ public class ArticleController extends BaseController {
             resultMap.put("relation", relationList);
         }
         resultMap.put("single", article);
+
+        // 更新阅读量
+        articleService.updateArticleReading(id);
         return success(resultMap);
     }
 

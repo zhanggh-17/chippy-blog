@@ -67,4 +67,13 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
         EntityUtils.setCreatAndUpdatInfo(article);
         return mapper.insertSelective(article);
     }
+
+    /**
+     * @Description 更新阅读量
+     * @Author chippy
+     * @Datetime 2019/1/11 10:28
+     */
+    public void updateArticleReading(String id) {
+        mapper.updateArticleReading(id);
+    }
 }
