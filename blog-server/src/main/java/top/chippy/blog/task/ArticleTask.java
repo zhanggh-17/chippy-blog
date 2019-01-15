@@ -17,7 +17,7 @@ public class ArticleTask {
     @Autowired
     private CacheAPI cacheAPI;
 
-    @Scheduled(cron = "0 1 0 * * ?") // 每天执行一次
+    @Scheduled(cron = "0 0 1 * * ?") // 每天执行一次
     public void updateArticleReading() {
         // 刷新redis中文章阅读量的缓存
         cacheAPI.removeByPre("article:single");

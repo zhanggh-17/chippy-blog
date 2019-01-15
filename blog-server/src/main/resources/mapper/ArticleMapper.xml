@@ -20,11 +20,24 @@
     <select id="news" resultMap="news_map">
         SELECT
             id,
-            title
+            title,
+            `type`
         FROM
             chippy_article
         WHERE del_flag = 1
         ORDER BY crt_time DESC
+        LIMIT #{num}
+    </select>
+
+    <select id="hots" resultMap="news_map">
+        SELECT
+            id,
+            title,
+            `type`
+        FROM
+            chippy_article
+        WHERE del_flag = 1
+        ORDER BY `count` DESC
         LIMIT #{num}
     </select>
 
@@ -34,7 +47,8 @@
             title,
             half_content,
             cover,
-            author
+            author,
+            `type`
         FROM
             chippy_article
         WHERE
@@ -45,17 +59,6 @@
             OR (author LIKE CONCAT('%','${search}','%'))
         </if>
         ORDER BY crt_time DESC
-    </select>
-
-    <select id="hots" resultType="top.chippy.blog.entity.Article">
-        SELECT
-            id,
-            title
-        FROM
-            chippy_article
-        WHERE del_flag = 1
-        ORDER BY `count` DESC
-        LIMIT #{num}
     </select>
 
     <select id="relation" resultType="top.chippy.blog.entity.Article">
@@ -74,6 +77,7 @@
     <select id="single" resultType="top.chippy.blog.entity.Article">
         SELECT
             ca.id,
+            ca.article_no AS articleNo,
             ca.title,
             ca.content,
             ca.half_content AS halfContent,

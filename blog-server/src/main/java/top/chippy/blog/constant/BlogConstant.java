@@ -18,5 +18,7 @@ public class BlogConstant {
     public static int DEFAULT_HOTS_LIMIT = 6;
     // 相关文章默认分页数量
     public static int DEFAULT_RELATION_LIMIT = 6;
+    // 没有上下文章提示
+    public static final String MESSAGE_TIP = "已经没有文章了";
 
 }

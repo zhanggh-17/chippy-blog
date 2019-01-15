@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.chippy.blog.annotation.IgnoreAuth;
+import top.chippy.blog.constant.BlogConstant;
 import top.chippy.blog.entity.Article;
 import top.chippy.blog.service.ArticleService;
 
@@ -74,8 +75,23 @@ public class ArticleController extends BaseController {
         if (!Stringer.isNullOrEmpty(article)) {
             type = article.getType();
             relationList = articleService.relation(type);
+            // 上一篇
+            Article preArtcile = articleService.preArticle(type, article.getArticleNo());
+            // 下一篇
+            Article posArticle = articleService.posArticle(type, article.getArticleNo());
+            if (Stringer.isNullOrEmpty(preArtcile)) {
+                preArtcile = new Article();
+                preArtcile.setTitle(BlogConstant.MESSAGE_TIP);
+            }
+            if (Stringer.isNullOrEmpty(posArticle)) {
+                posArticle = new Article();
+                posArticle.setTitle(BlogConstant.MESSAGE_TIP);
+            }
+            resultMap.put("pre", preArtcile);
+            resultMap.put("pos", posArticle);
             resultMap.put("relation", relationList);
         }
+
         resultMap.put("single", article);
 
         // 更新阅读量

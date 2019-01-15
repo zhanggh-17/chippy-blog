@@ -76,4 +76,13 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
     public void updateArticleReading(String id) {
         mapper.updateArticleReading(id);
     }
+
+
+    public Article preArticle(String type, String articleNo) {
+        return mapper.preArticle(type, articleNo);
+    }
+
+    public Article posArticle(String type, String articleNo) {
+        return mapper.posArticle(type, articleNo);
+    }
 }
