@@ -50,7 +50,7 @@ server:
 
 jwt:
   token-header: Authorization
-  expire: 864000
+  expire: 1296000000
   rsa-secret: 123456
 
 logging:
