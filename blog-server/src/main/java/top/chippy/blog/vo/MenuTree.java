@@ -16,6 +16,7 @@ public class MenuTree extends TreeNode {
     private String title;
     private String href;
     private int sort;
+    private String icon;
     private int type;
     private String parentId;
 }

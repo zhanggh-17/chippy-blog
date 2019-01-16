@@ -21,4 +21,18 @@ public class BlogConstant {
     // 没有上下文章提示
     public static final String MESSAGE_TIP = "已经没有文章了";
 
+    // ==============redis==============
+    // 字典前缀
+    public static final String DICTIONARY_PRE = "dictionary";
+    // 文章前缀
+    public static final String ARTICLE_SINGLE_PRE = "article:single";
+    // 相关文章
+    public static final String ARTICLE_RELATION = "article:relations";
+    // 热门文章
+    public static final String ARTICLE_HOTS = "article:hots";
+    // 最新文章
+    public static final String ARTICLE_NEWS = "article:news";
+
+    // 菜单下来框
+    public static final String SELECT_MENU = "menu:select";
 }

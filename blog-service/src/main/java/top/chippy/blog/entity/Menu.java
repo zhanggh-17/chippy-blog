@@ -22,6 +22,7 @@ public class Menu {
     private String title;
     private String href;
     private int sort;
+    private String icon;
     private int type;
     private String parentId;
     private String description;

@@ -40,23 +40,23 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
         return pageInfo;
     }
 
-    @Cache(key = "article:news")
+    @Cache(key = BlogConstant.ARTICLE_NEWS)
     public List<Article> news() {
         return mapper.news(BlogConstant.DEFAULT_NEWS_LIMIT);
     }
 
-    @Cache(key = "article:hots")
+    @Cache(key = BlogConstant.ARTICLE_HOTS)
     public List<Article> hots() {
         return mapper.hots(BlogConstant.DEFAULT_HOTS_LIMIT);
     }
 
-    @Cache(key = "article:relations")
+    @Cache(key = BlogConstant.ARTICLE_RELATION)
     public List<Article> relation(String type) {
         List<Article> relationList = mapper.relation(type, BlogConstant.DEFAULT_RELATION_LIMIT);
         return relationList;
     }
 
-    @Cache(key = "article:single:{1}")
+    @Cache(key = BlogConstant.ARTICLE_SINGLE_PRE + "{1}")
     public Article single(String id) {
         return mapper.single(id);
     }
@@ -77,12 +77,15 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
         mapper.updateArticleReading(id);
     }
 
-
-    public Article preArticle(String type, String articleNo) {
+    public Article preArticle(String type, int articleNo) {
         return mapper.preArticle(type, articleNo);
     }
 
-    public Article posArticle(String type, String articleNo) {
+    public Article posArticle(String type, int articleNo) {
         return mapper.posArticle(type, articleNo);
+    }
+
+    public synchronized int selectMaxArticleNo(String type) {
+        return mapper.selectMaxArticleNo(type);
     }
 }

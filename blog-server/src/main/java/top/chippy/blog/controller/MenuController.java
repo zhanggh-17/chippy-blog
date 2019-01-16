@@ -3,11 +3,10 @@ package top.chippy.blog.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.loser.common.base.controller.BaseController;
+import com.loser.common.util.BeanPropertiesUtil;
 import com.loser.common.util.Stringer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.entity.Menu;
@@ -55,5 +54,33 @@ public class MenuController extends BaseController {
         List<Menu> list = menuService.selectByExample(example);
         PageInfo<Menu> pageInfo = new PageInfo<Menu>(list);
         return success(pageInfo);
+    }
+
+    @PostMapping("/save")
+    public Object save(Menu menu) throws IllegalAccessException {
+        BeanPropertiesUtil.fieldsNotNullOrEmpty(menu, new String[]{"title", "type", "href", "parentId"});
+        int flag = 0;
+        flag = menuService.save(menu);
+        return success(flag);
+    }
+
+    @PostMapping("/update")
+    public Object update(Menu menu) throws IllegalAccessException {
+        BeanPropertiesUtil.fieldsNotNullOrEmpty(menu, new String[]{"title", "type", "href", "parentId"});
+        int flag = 0;
+        flag = menuService.update(menu);
+        return success(flag);
+    }
+
+    @GetMapping("/select/menus")
+    public Object loadSelectMenus() {
+        List<Menu> menus = menuService.laodSelectMenus();
+        return success(menus);
+    }
+
+    @GetMapping("/{id}")
+    public Object menu(@PathVariable("id") String id) {
+        Menu menu = menuService.selectById(id);
+        return success(menu);
     }
 }

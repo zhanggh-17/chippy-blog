@@ -1,12 +1,15 @@
 package top.chippy.blog.service;
 
 import com.ace.cache.annotation.Cache;
+import com.ace.cache.annotation.CacheClear;
 import com.loser.common.base.service.BaseMysqlService;
 import com.loser.common.constant.ProjectConstant;
+import com.loser.common.util.EntityUtils;
 import com.loser.common.util.TreeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
+import top.chippy.blog.constant.BlogConstant;
 import top.chippy.blog.entity.Menu;
 import top.chippy.blog.mapper.MenuMapper;
 import top.chippy.blog.vo.MenuTree;
@@ -52,5 +55,22 @@ public class MenuService extends BaseMysqlService<MenuMapper, Menu> {
             trees.add(node);
         }
         return TreeUtil.bulid(trees, root);
+    }
+
+    @Cache(key = BlogConstant.SELECT_MENU)
+    public List<Menu> laodSelectMenus() {
+        return mapper.laodSelectMenus();
+    }
+
+    @CacheClear(key = BlogConstant.SELECT_MENU)
+    public int save(Menu menu) {
+        EntityUtils.setCreatAndUpdatInfo(menu);
+        return mapper.insertSelective(menu);
+    }
+
+    @CacheClear(key = BlogConstant.SELECT_MENU)
+    public int update(Menu menu) {
+        EntityUtils.setUpdatedInfo(menu);
+        return mapper.updateByPrimaryKeySelective(menu);
     }
 }

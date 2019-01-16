@@ -29,11 +29,14 @@ public interface ArticleMapper extends Mapper<Article> {
     @Update("UPDATE chippy_article SET `count`= `count` + 1 WHERE id = #{id}")
     void updateArticleReading(@Param("id") String id);
 
-    @Select("SELECT * FROM chippy_article WHERE `type` = #{type} AND article_no = #{articleNo}-1")
+    @Select("SELECT * FROM chippy_article WHERE `type` = #{type} AND article_no = #{articleNo}-1 del_flag = 1")
     Article preArticle(@Param("type") String type,
-                       @Param("articleNo") String articleNo);
+                       @Param("articleNo") int articleNo);
 
-    @Select("SELECT * FROM chippy_article WHERE `type` = #{type} AND article_no = #{articleNo}+1")
+    @Select("SELECT * FROM chippy_article WHERE `type` = #{type} AND article_no = #{articleNo}+1 AND del_flag = 1")
     Article posArticle(@Param("type")String type,
-                       @Param("articleNo")String articleNo);
+                       @Param("articleNo")int articleNo);
+
+    @Select("SELECT MAX(article_no) FROM chippy_article WHERE del_flag = 1 AND `type` = #{type}")
+    int selectMaxArticleNo(@Param("type") String type);
 }

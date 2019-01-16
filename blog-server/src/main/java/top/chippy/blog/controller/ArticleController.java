@@ -106,6 +106,8 @@ public class ArticleController extends BaseController {
 
         int flag = 0;
         try {
+            int maxArticleNo = articleService.selectMaxArticleNo(article.getType());
+            article.setArticleNo(maxArticleNo + 1);
             flag = articleService.save(article);
         } catch (Exception e) {
             log.error("添加文章失败");
