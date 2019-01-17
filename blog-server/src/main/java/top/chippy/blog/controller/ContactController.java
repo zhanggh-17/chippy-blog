@@ -47,9 +47,8 @@ public class ContactController extends BaseController {
             try {
                 flag = contactService.insert(contact);
             } catch (Exception e) {
-                log.error("接受交流信息失败");
+                log.error("接受交流信息失败 >>> " + contact, e);
                 log.error(e.getMessage());
-                return error("提交异常。");
             }
         }
         return success(flag);

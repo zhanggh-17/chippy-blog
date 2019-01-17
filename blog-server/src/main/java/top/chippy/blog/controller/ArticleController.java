@@ -11,6 +11,7 @@ import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.constant.BlogConstant;
 import top.chippy.blog.entity.Article;
 import top.chippy.blog.service.ArticleService;
+import top.chippy.blog.vo.Params;
 
 import java.util.HashMap;
 import java.util.List;
@@ -110,9 +111,54 @@ public class ArticleController extends BaseController {
             article.setArticleNo(maxArticleNo + 1);
             flag = articleService.save(article);
         } catch (Exception e) {
-            log.error("添加文章失败");
+            log.error("添加文章失败 >>> " + article, e);
             log.error(e.getMessage());
         }
         return success(flag);
+    }
+
+    @PostMapping("/update")
+    public Object update(Article article) throws IllegalAccessException {
+        if (Stringer.isNullOrEmpty(article.getId())) {
+            return error("请选择需要修改的文章");
+        }
+        String[] fields = new String[]{"title", "content", "halfContent", "cover", "author", "type"};
+        BeanPropertiesUtil.fieldsNotNullOrEmpty(article, fields);
+
+        int flag = 0;
+        try {
+            flag = articleService.update(article);
+        } catch (Exception e) {
+            log.error("修改文章失败 >>> " + article, e);
+            log.error(e.getMessage());
+        }
+        return success(flag);
+    }
+
+    @GetMapping("/all/list")
+    public Object all(Params params){
+        PageInfo<Article> pageInfo = articleService.all(params);
+        return success(pageInfo);
+    }
+
+    @PostMapping("/state")
+    public Object state(String id) {
+        int flag = 0;
+        if (Stringer.isNullOrEmpty(id)) {
+            return error("请选择要更新状态的文章");
+        }
+        try {
+            flag = articleService.state(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            log.error("更新文章状态出错的id >>> " + id, e);
+        }
+        return success(flag);
+    }
+
+    @GetMapping("/{id}")
+    public Object article(@PathVariable("id") String id) {
+        Article article = articleService.selectById(id);
+        return success(article);
     }
 }

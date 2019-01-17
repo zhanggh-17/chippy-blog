@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.loser.common.base.controller.BaseController;
 import com.loser.common.util.BeanPropertiesUtil;
 import com.loser.common.util.Stringer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
@@ -22,6 +23,7 @@ import java.util.List;
  * @Author: chippy
  * @Description:
  */
+@Slf4j
 @RestController
 @RequestMapping("/menu")
 public class MenuController extends BaseController {
@@ -60,7 +62,12 @@ public class MenuController extends BaseController {
     public Object save(Menu menu) throws IllegalAccessException {
         BeanPropertiesUtil.fieldsNotNullOrEmpty(menu, new String[]{"title", "type", "href", "parentId"});
         int flag = 0;
-        flag = menuService.save(menu);
+        try {
+            flag = menuService.save(menu);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            log.error("添加错误的菜单信息 >>> " + menu, e);
+        }
         return success(flag);
     }
 
@@ -68,7 +75,12 @@ public class MenuController extends BaseController {
     public Object update(Menu menu) throws IllegalAccessException {
         BeanPropertiesUtil.fieldsNotNullOrEmpty(menu, new String[]{"title", "type", "href", "parentId"});
         int flag = 0;
-        flag = menuService.update(menu);
+        try {
+            flag = menuService.update(menu);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            log.error("修改错误的菜单信息 >>> " + menu, e);
+        }
         return success(flag);
     }
 
@@ -82,5 +94,20 @@ public class MenuController extends BaseController {
     public Object menu(@PathVariable("id") String id) {
         Menu menu = menuService.selectById(id);
         return success(menu);
+    }
+
+    @DeleteMapping("/{id}")
+    public Object remove(@PathVariable("id") String id) {
+        int flag = 0;
+        if (Stringer.isNullOrEmpty(id)) {
+            return error("请选择要删除的菜单");
+        }
+        try {
+            flag = menuService.remove(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            log.error("删除菜单出错的id >>> " + id, e);
+        }
+        return success(flag);
     }
 }

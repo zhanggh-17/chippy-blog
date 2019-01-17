@@ -3,6 +3,7 @@ package top.chippy.blog.entity;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 @Data
 @Table(name = "chippy_user")
 public class User {
+    @Id
     private String id;
     private String name;
     private String email;

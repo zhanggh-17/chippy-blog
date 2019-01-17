@@ -35,4 +35,14 @@ public class BlogConstant {
 
     // 菜单下来框
     public static final String SELECT_MENU = "menu:select";
+    // 前台菜单
+    public static final String BEFORE_MENU = "menu:before";
+    // 后台菜单
+    public static final String AFTER_MENU = "menu:after";
+
+    // 单个用户信息
+    public static final String USER_INFO = "userinfo";
+
+    // 服务器异常
+    public static final String SERVER_EXCEPTION = "服务器异常";
 }

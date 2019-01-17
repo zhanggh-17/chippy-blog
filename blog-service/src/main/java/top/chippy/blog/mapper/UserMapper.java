@@ -4,6 +4,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 import top.chippy.blog.entity.User;
+import top.chippy.blog.vo.Params;
+
+import java.util.List;
 
 /**
  * @Date: 2019/1/9
@@ -19,4 +22,9 @@ public interface UserMapper extends Mapper<User> {
 
     @Select("SELECT id, `name`, email FROM chippy_user WHERE del_flag = 1 AND id = #{userId}")
     User userInfo(@Param("userId") String userId);
+
+    List<User> list(@Param("params") Params params);
+
+    @Select("SELECT del_flag AS delFlag FROM chippy_user WHERE id = #{id}")
+    int selectUserState(@Param("id") String id);
 }

@@ -16,7 +16,20 @@
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="type" jdbcType="VARCHAR" property="type" />
     </resultMap>
-    
+
+    <resultMap id="article_list" type="top.chippy.blog.entity.Article">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="article_no" jdbcType="VARCHAR" property="articleNo" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+        <result column="count" jdbcType="VARCHAR" property="count" />
+        <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
+        <result column="crt_time" jdbcType="VARCHAR" property="crtTime" />
+        <result column="upd_time" jdbcType="VARCHAR" property="updTime" />
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    </resultMap>
+
     <select id="news" resultMap="news_map">
         SELECT
             id,
@@ -54,9 +67,9 @@
         WHERE
             del_flag = 1
         <if test="search != null and search != null">
-            AND (title LIKE CONCAT('%','${search}','%'))
+            AND ((title LIKE CONCAT('%','${search}','%'))
             OR (half_content LIKE CONCAT('%','${search}','%'))
-            OR (author LIKE CONCAT('%','${search}','%'))
+            OR (author LIKE CONCAT('%','${search}','%')))
         </if>
         ORDER BY crt_time DESC
     </select>
@@ -96,5 +109,15 @@
         INNER JOIN chippy_tag AS ct ON ca.type = ct.id
         WHERE
             ca.id = #{id}
+    </select>
+
+    <select id="all" resultMap="article_list">
+        SELECT a.id, a.article_no, a.title, a.author, t.name type_name, a.`count`, a.crt_user, a.crt_time, a.upd_time, a.del_flag
+        FROM chippy_article a
+        INNER JOIN chippy_tag t ON a.type = t.id
+        WHERE 1=1
+        <if test="params.search != null and params.search != ''">
+            AND a.title LIKE CONCAT('%', #{params.search}, '%')
+        </if>
     </select>
 </mapper>

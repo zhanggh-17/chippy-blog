@@ -20,7 +20,7 @@ public class Article {
 
     @Id
     private String id;
-    private int articleNo;
+    private Integer articleNo;
     private String title;
     private String content;
     private String halfContent;

@@ -1,5 +1,6 @@
 package top.chippy.blog.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 import top.chippy.blog.entity.Tag;
@@ -15,6 +16,6 @@ import java.util.List;
 public interface TagMapper extends Mapper<Tag> {
     List<Tag> list();
 
-    @Select("SELECT id, name FROM chippy_tag")
-    Tag single(String id);
+    @Select("SELECT id, name FROM chippy_tag WHERE id = #{id}")
+    Tag single(@Param("id") String id);
 }

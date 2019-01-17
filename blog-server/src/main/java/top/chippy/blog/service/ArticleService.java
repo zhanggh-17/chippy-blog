@@ -6,14 +6,15 @@ import com.ace.cache.api.CacheAPI;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.loser.common.base.service.BaseMysqlService;
+import com.loser.common.constant.ProjectConstant;
 import com.loser.common.util.EntityUtils;
 import com.loser.common.util.Stringer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 import top.chippy.blog.constant.BlogConstant;
 import top.chippy.blog.entity.Article;
 import top.chippy.blog.mapper.ArticleMapper;
+import top.chippy.blog.vo.Params;
 
 import java.util.List;
 
@@ -87,5 +88,40 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
 
     public synchronized int selectMaxArticleNo(String type) {
         return mapper.selectMaxArticleNo(type);
+    }
+
+
+    public PageInfo<Article> all(Params params) {
+        PageHelper.startPage(params.getPageNum(), params.getLimit());
+        List<Article> list = mapper.all(params);
+        PageInfo<Article> pageinfo = new PageInfo<Article>(list);
+        return pageinfo;
+    }
+
+    /**
+     * @Description 更改文章的状态
+     * @Author chippy
+     * @Datetime 2019/1/17 17:57
+     */
+    @CacheClear(keys = {BlogConstant.ARTICLE_SINGLE_PRE + "{1}",
+                        BlogConstant.ARTICLE_NEWS,
+                        BlogConstant.ARTICLE_HOTS,
+                        BlogConstant.ARTICLE_RELATION})
+    public int state(String id) {
+        int state = mapper.selectArticleState(id);
+        Article article = new Article();
+        if (state == 1) {
+            article.setDelFlag(2);
+        } else {
+            article.setDelFlag(1);
+        }
+        article.setId(id);
+        return mapper.updateByPrimaryKeySelective(article);
+    }
+
+    public int update(Article article) {
+        article.setDelFlag(ProjectConstant.SYSTEM_ENABLE); // 标识是修改
+        EntityUtils.setUpdatedInfo(article);
+        return mapper.updateByPrimaryKeySelective(article);
     }
 }

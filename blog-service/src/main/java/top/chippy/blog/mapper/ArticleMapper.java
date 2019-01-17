@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 import top.chippy.blog.entity.Article;
+import top.chippy.blog.vo.Params;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public interface ArticleMapper extends Mapper<Article> {
     @Update("UPDATE chippy_article SET `count`= `count` + 1 WHERE id = #{id}")
     void updateArticleReading(@Param("id") String id);
 
-    @Select("SELECT * FROM chippy_article WHERE `type` = #{type} AND article_no = #{articleNo}-1 del_flag = 1")
+    @Select("SELECT * FROM chippy_article WHERE `type` = #{type} AND article_no = #{articleNo}-1 AND del_flag = 1")
     Article preArticle(@Param("type") String type,
                        @Param("articleNo") int articleNo);
 
@@ -39,4 +40,9 @@ public interface ArticleMapper extends Mapper<Article> {
 
     @Select("SELECT MAX(article_no) FROM chippy_article WHERE del_flag = 1 AND `type` = #{type}")
     int selectMaxArticleNo(@Param("type") String type);
+
+    List<Article> all(@Param("params") Params params);
+
+    @Select("SELECT del_flag AS delFlag FROM chippy_article WHERE id = #{id}")
+    int selectArticleState(@Param("id") String id);
 }
