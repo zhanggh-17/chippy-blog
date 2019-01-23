@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.chippy.blog.mapper.ContactMapper">
+
+    <select id="list" resultType="top.chippy.blog.entity.Contact">
+        SELECT
+            id,
+            `name`,
+            email,
+            address,
+            is_read
+        FROM
+            chippy_contact
+        WHERE
+            1=1
+        <if test="search != null and search != ''">
+            AND `name` LIKE CONCAT('%', #{search}, '%')
+        </if>
+    </select>
+
+</mapper>

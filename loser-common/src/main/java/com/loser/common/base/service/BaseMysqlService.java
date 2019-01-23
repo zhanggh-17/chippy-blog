@@ -77,5 +77,4 @@ public class BaseMysqlService<M extends Mapper<T>, T> {
     public int selectCountByExample(Object example) {
         return mapper.selectCountByExample(example);
     }
-
 }

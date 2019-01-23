@@ -117,7 +117,49 @@
         INNER JOIN chippy_tag t ON a.type = t.id
         WHERE 1=1
         <if test="params.search != null and params.search != ''">
-            AND a.title LIKE CONCAT('%', #{params.search}, '%')
+            AND (a.title LIKE CONCAT('%', #{params.search}, '%')
+            OR a.author LIKE CONCAT('%', #{params.search}, '%'))
         </if>
+        <if test="params.delFlag != null and params.delFlag != ''">
+            AND a.del_flag = #{params.delFlag}
+        </if>
+        <if test="params.crtUser != null and params.crtUser != ''">
+            AND a.crt_user LIKE CONCAT('%', #{params.crtUser}, '%')
+        </if>
+        <if test="params.type != null and params.type != ''">
+            AND a.type = #{params.type}
+        </if>
+        ORDER BY a.crt_time DESC
+    </select>
+
+    <select id="currentMonthAddArticle" resultType="java.util.HashMap">
+        SELECT
+            COUNT(1) count
+        FROM
+            chippy_article
+        WHERE
+            MONTH (crt_time) = MONTH (NOW())
+    </select>
+
+    <select id="currentDayMaxFlowCount" resultType="java.util.HashMap">
+        SELECT
+            `count`
+        FROM
+            chippy_article
+        WHERE
+            del_flag = 1
+        AND DAY (crt_time) = DAY (NOW())
+        ORDER BY
+            `count` DESC
+        LIMIT 1
+    </select>
+
+    <select id="maxArtcleCount" resultType="java.util.HashMap">
+        SELECT
+            max(`count`) maxCount
+        FROM
+            chippy_article
+        WHERE
+            del_flag = 1
     </select>
 </mapper>

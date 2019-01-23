@@ -45,4 +45,11 @@ public class BlogConstant {
 
     // 服务器异常
     public static final String SERVER_EXCEPTION = "服务器异常";
+
+    // 默认普通用户
+    public static final String DEFAULT_ROLE = "2";
+
+    // IP转地址的接口
+    public static final String CONVERT_ADDRESS = "http://ip.taobao.com/service/getIpInfo.php?ip=";
+    public static final String UNDEFINED_INFO = "未知";
 }

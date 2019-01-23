@@ -11,6 +11,7 @@ import top.chippy.blog.annotation.IgnoreAuth;
 import top.chippy.blog.constant.BlogConstant;
 import top.chippy.blog.entity.Article;
 import top.chippy.blog.service.ArticleService;
+import top.chippy.blog.vo.ArticleParams;
 import top.chippy.blog.vo.Params;
 
 import java.util.HashMap;
@@ -107,7 +108,10 @@ public class ArticleController extends BaseController {
 
         int flag = 0;
         try {
-            int maxArticleNo = articleService.selectMaxArticleNo(article.getType());
+            Integer maxArticleNo = articleService.selectMaxArticleNo(article.getType());
+            if (Stringer.isNullOrEmpty(maxArticleNo)) {
+                maxArticleNo = 0;
+            }
             article.setArticleNo(maxArticleNo + 1);
             flag = articleService.save(article);
         } catch (Exception e) {
@@ -136,8 +140,8 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("/all/list")
-    public Object all(Params params){
-        PageInfo<Article> pageInfo = articleService.all(params);
+    public Object all(ArticleParams articleParams){
+        PageInfo<Article> pageInfo = articleService.all(articleParams);
         return success(pageInfo);
     }
 

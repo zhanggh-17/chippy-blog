@@ -13,6 +13,17 @@
         <result property="delFlag" column="del_flag" />
     </resultMap>
 
+    <!-- 用户详细信息 -->
+    <resultMap id="user_role" type="top.chippy.blog.entity.User">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+        <association property="role" javaType="top.chippy.blog.entity.Role">
+            <id column="role_id" property="id"/>
+            <result column="role_name" property="name" />
+        </association>
+    </resultMap>
+
     <select id="validate" resultType="top.chippy.blog.entity.User">
         SELECT
           id,
@@ -35,4 +46,20 @@
         </if>
     </select>
 
+    <select id="userInfo" resultMap="user_role">
+        SELECT cu.id, cu.`name`, cu.email, br.id AS role_id, br.`name` AS role_name
+        FROM chippy_user cu
+        INNER JOIN base_user_role bur ON bur.`user_id` = cu.`id`
+        INNER JOIN base_role br ON bur.`role_id` = br.`id`
+        WHERE cu.id = #{userId}
+    </select>
+
+    <select id="currentMonthAddUserCount" resultType="java.util.HashMap">
+        SELECT
+            COUNT(1) count
+        FROM
+            chippy_user
+        WHERE
+            MONTH (crt_time) = MONTH (NOW())
+    </select>
 </mapper>

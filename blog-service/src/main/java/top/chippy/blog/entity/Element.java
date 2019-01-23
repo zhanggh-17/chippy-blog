@@ -4,30 +4,27 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
- * @Date: 2019/1/9
+ * @Date: 2019/1/18 16:07
+ * @program: chippy-blog
  * @Author: chippy
- * @Description: 用户实体类
+ * @Description:
  */
 @ToString
 @Data
-@Table(name = "chippy_user")
-public class User {
+public class Element {
+
     @Id
     private String id;
+    private String code;
+    private String type;
     private String name;
-    private String email;
-    private String password;
+    private String uri;
+    private String menuId;
     private String crtTime;
     private String updTime;
     private String crtUser;
     private String updUser;
-    private int delFlag;
 
-    // 角色名称
-    @Transient
-    public Role role;
 }

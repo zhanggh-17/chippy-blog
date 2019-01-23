@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import top.chippy.blog.constant.BlogConstant;
 import top.chippy.blog.entity.Article;
 import top.chippy.blog.mapper.ArticleMapper;
+import top.chippy.blog.vo.ArticleParams;
 import top.chippy.blog.vo.Params;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -86,14 +88,13 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
         return mapper.posArticle(type, articleNo);
     }
 
-    public synchronized int selectMaxArticleNo(String type) {
+    public synchronized Integer selectMaxArticleNo(String type) {
         return mapper.selectMaxArticleNo(type);
     }
 
-
-    public PageInfo<Article> all(Params params) {
-        PageHelper.startPage(params.getPageNum(), params.getLimit());
-        List<Article> list = mapper.all(params);
+    public PageInfo<Article> all(ArticleParams articleParams) {
+        PageHelper.startPage(articleParams.getPageNum(), articleParams.getLimit());
+        List<Article> list = mapper.all(articleParams);
         PageInfo<Article> pageinfo = new PageInfo<Article>(list);
         return pageinfo;
     }
@@ -104,9 +105,9 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
      * @Datetime 2019/1/17 17:57
      */
     @CacheClear(keys = {BlogConstant.ARTICLE_SINGLE_PRE + "{1}",
-                        BlogConstant.ARTICLE_NEWS,
-                        BlogConstant.ARTICLE_HOTS,
-                        BlogConstant.ARTICLE_RELATION})
+            BlogConstant.ARTICLE_NEWS,
+            BlogConstant.ARTICLE_HOTS,
+            BlogConstant.ARTICLE_RELATION})
     public int state(String id) {
         int state = mapper.selectArticleState(id);
         Article article = new Article();
@@ -123,5 +124,24 @@ public class ArticleService extends BaseMysqlService<ArticleMapper, Article> {
         article.setDelFlag(ProjectConstant.SYSTEM_ENABLE); // 标识是修改
         EntityUtils.setUpdatedInfo(article);
         return mapper.updateByPrimaryKeySelective(article);
+    }
+
+    public HashMap<String, Object> currentMonthAddArticle(Article article) {
+        article.setDelFlag(ProjectConstant.SYSTEM_ENABLE);
+        return mapper.currentMonthAddArticle(article);
+    }
+
+    public HashMap<String, Object> currentDayMaxFlowCount(Article article) {
+        article.setDelFlag(ProjectConstant.SYSTEM_ENABLE);
+        return mapper.currentDayMaxFlowCount(article);
+    }
+
+    /**
+     * @Description 查询最高访问量的文章(凑统计的数)
+     * @Author chippy
+     * @Datetime 2019/1/23 15:58
+     */
+    public HashMap<String,Object> maxArticleCount(Article article) {
+        return mapper.maxArtcleCount(article);
     }
 }

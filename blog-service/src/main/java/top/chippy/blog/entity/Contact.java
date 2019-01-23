@@ -19,7 +19,9 @@ public class Contact {
     @Id
     private String id;
     private String ip;
+    private String address;
     private String name;
     private String email;
     private String content;
+    private int isRead;
 }
